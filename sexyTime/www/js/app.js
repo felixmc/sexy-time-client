@@ -8,8 +8,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
-		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-		// for form inputs)
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
@@ -54,12 +52,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 			views: {
 				'menuContent': {
 					templateUrl: "templates/rating.html",
-					controller: 'RatingCtrl',
-					resolve: {
-						photo: ['ratings', function(ratings){
-							return ratings.getNextPhoto();
-						}]
-					}
+					controller: 'RatingCtrl'
+//					,
+//					resolve: {
+//						photo: ['ratings', function(ratings){
+//							return ratings.getNextPhoto();
+//						}]
+//					}
 				}
 			}
 		})

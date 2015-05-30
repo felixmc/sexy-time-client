@@ -3,4 +3,6 @@
 
 node_modules/
 platforms/
+resources/
 plugins/
+.brackets.json

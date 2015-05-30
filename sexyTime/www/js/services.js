@@ -2,6 +2,24 @@ var BASE_URL = 'http://sexytime.felixmilea.com';
 
 angular.module('starter.services', [])
 
+.factory('Camera', ['$q', function($q) {
+
+	return {
+		getPicture: function(options) {
+			var q = $q.defer();
+			
+			navigator.camera.getPicture(function(result) {
+				// Do any magic you need
+				q.resolve(result);
+			}, function(err) {
+				q.reject(err);
+			}, options);
+			
+			return q.promise;
+		}
+	}
+}])
+
 .factory('photos', ['$http', '$window', function($http, $window){
 	var photoService = {};
 
