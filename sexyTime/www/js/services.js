@@ -7,8 +7,7 @@ function url(segment) {
 angular.module('starter.services', [])
 
 .factory('Camera', ['$q', function($q) {
-
-	return {
+	var CameraService = {
 		getPicture: function(options) {
 			var q = $q.defer();
 
@@ -23,7 +22,9 @@ angular.module('starter.services', [])
 
 			return q.promise;
 		}
-	}
+	};
+
+	return CameraService;
 }])
 
 .factory('User', function authFactory() {
@@ -39,14 +40,14 @@ angular.module('starter.services', [])
 			});
 		},
 		getLocalAccount: function getLocalAccount() {
-			return localStorage[userKey];
+			return localStorage.getItem(userKey);
 		},
 		getRemoteAccount: function getFullAccount() {
 			$http.get(url('auth/me')).success(cb);
 		},
 		createAccount: function createAccount() {
 			$http.post(url('auth/me'), AuthService.getLocalAccount()).success(function(me) {
-				localStorage[userKey] = me;
+				localStorage.setItem(userKey, me);
 				cb(me);
 			});
 		},
