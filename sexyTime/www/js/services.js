@@ -1,4 +1,8 @@
-var BASE_URL = 'http://sexytime.felixmilea.com';
+var BASE_URL = 'http://sexytime.felixmilea.com/';
+
+function url(segment) {
+	return BASE_URL + segment;
+}
 
 angular.module('starter.services', [])
 
@@ -7,32 +11,83 @@ angular.module('starter.services', [])
 	return {
 		getPicture: function(options) {
 			var q = $q.defer();
-			
+
 			navigator.camera.getPicture(function(result) {
+
 				// Do any magic you need
+
 				q.resolve(result);
 			}, function(err) {
 				q.reject(err);
 			}, options);
-			
+
 			return q.promise;
 		}
 	}
 }])
 
-.factory('photos', ['$http', '$window', function($http, $window){
-	var photoService = {};
+.factory('User', function authFactory() {
+	var userKey = 'user';
 
-	photoService.savePicture = function(){
-		$http.post('/photo', photo).success(function(data){
-
-		}).error(function(err){
-
-		});
+	var AuthService = {
+		hasLocalAccount: function hasLocalAccount() {
+			return !!AuthService.getLocalAccount();
+		},
+		hasRemoteAccount: function hasAccount(cb) {
+			$http.get(url('auth/status')).success(function(auth) {
+				cb(auth.status);
+			});
+		},
+		getLocalAccount: function getLocalAccount() {
+			return localStorage[userKey];
+		},
+		getRemoteAccount: function getFullAccount() {
+			$http.get(url('auth/me')).success(cb);
+		},
+		createAccount: function createAccount() {
+			$http.post(url('auth/me'), AuthService.getLocalAccount()).success(function(me) {
+				localStorage[userKey] = me;
+				cb(me);
+			});
+		},
+		login: function login(cb) {
+			var user = AuthService.getLocalAccount();
+			$http.post(url('auth/me'), { userId: user.id, secret: user.secret }).success(function(auth) {
+				cb(auth);
+			});
+		}
 	};
 
-	return photoService;
-}])
+	return AuthService;
+})
+
+.factory('Photo', function photoFactory($http, $window) {
+	var PhotoService = {
+		create: function createPhoto(photo, cb) {
+			$http.post(url('/photo'), photo).success(function(data) {
+				cb(null, data);
+			}).error(function(err) {
+				cb(err);
+			});
+		},
+		read: function readPhoto(photoId, cb) {
+			$http.get(url('/photo/' + photoId)).success(function(photo) {
+				cb(null, photo);
+			}).error(function(err) {
+				cb(err);
+			});
+		},
+		update: function updatePhoto(photo, cb) {
+			$http.put(url('/photo/' + photo.id)).success(function(uPhoto) {
+				cb(null, uPhoto);
+			}).error(function(err) {
+				cb(err);
+			});
+		}
+	};
+
+	return PhotoService;
+})
 
 .factory('ratings', ['$http', '$window', function($http, $window){
 	var ratingService = {};
