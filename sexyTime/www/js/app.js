@@ -8,11 +8,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
+		console.log('i know what you came here to do');
+
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
 		if (window.StatusBar) {
 			// org.apache.cordova.statusbar required
+			console.log('LET THERE BE STATUS');
 			StatusBar.styleDefault();
 		}
 	});
@@ -39,31 +42,41 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 			}
 		}
 	})
-		.state('app.rating', {
-			url: "/rating",
-			views: {
-				'menuContent': {
-					templateUrl: "templates/rating.html",
-					controller: 'RatingCtrl'
+	.state('app.rating', {
+		url: "/rating",
+		views: {
+			'menuContent': {
+				templateUrl: "templates/rating.html",
+				controller: 'RatingCtrl'
 //					,
 //					resolve: {
 //						photo: ['ratings', function(ratings){
 //							return ratings.getNextPhoto();
 //						}]
 //					}
+			}
+		}
+	})
+
+	.state('app.signup', {
+			url: '/signup',
+			views: {
+				'menuContent': {
+					templateUrl: 'templates/signup.html',
+					controller: 'SignupCtrl'
 				}
 			}
-		})
+	})
 
 	.state('app.profile', {
 		url: "/profile",
 		views: {
 			'menuContent': {
 				templateUrl: "templates/profile.html",
-				controller: 'PlaylistCtrl'
+				controller: 'ProfileCtrl'
 			}
 		}
 	});
 	// if none of the above states are matched, use this as the fallback
-	$urlRouterProvider.otherwise('/app/rating');
+	// $urlRouterProvider.otherwise('/app/rating');
 });

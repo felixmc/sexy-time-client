@@ -122,5 +122,5 @@ angular.module('starter.services', [])
 
 	};
 
-	return ratingService;
+	return RatingService;
 });

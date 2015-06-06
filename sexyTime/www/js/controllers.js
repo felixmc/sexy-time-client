@@ -4,16 +4,23 @@ angular.module('starter.controllers', ['ngCordova'])
 	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
 
-.controller('SigninCtrl', ['$scope', '$http', function($scope, $http){
+.controller('SignupCtrl', ['$scope', '$http', function($scope, $http){
+	$scope.user = {};
 
+	$scope.signup = function(){
+
+	};
 }])
 
-.controller('RatingCtrl', ['$scope', 'ratings', function($scope, ratings) {
+.controller('RatingCtrl', ['$scope', '$state', 'Rating', function($scope, $state, Rating) {
+	//alert('shes a bad mamma jamma');
+	//$state.go('app.rating');
+
 	$scope.photoURL = function(){
-		return ratings.photo;
+		return Rating.photo;
 	};
 	$scope.upvote = function(){
-		ratings.vote(1, {id: "55699adaef8ada683e18e9c5"}}, function(err, data){
+		Rating.vote(1, {id: "55699adaef8ada683e18e9c5"}, function(err, data){
 			if (err){
 				console.log('felix help: ' + err);
 			}
@@ -23,7 +30,7 @@ angular.module('starter.controllers', ['ngCordova'])
 		});
 	};
 	$scope.downvote = function(){
-		ratings.vote(-1, {id: "55699adaef8ada683e18e9c5"}, function(err, data){
+		Rating.vote(-1, {id: "55699adaef8ada683e18e9c5"}, function(err, data){
 			if (err){
 				console.log('felix help down: ' + err);
 			}
@@ -132,5 +139,5 @@ angular.module('starter.controllers', ['ngCordova'])
 //	};
 } )
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('ProfileCtrl', function($scope, $stateParams) {
 });
