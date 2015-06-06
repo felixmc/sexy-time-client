@@ -98,9 +98,9 @@ angular.module('starter.services', [])
 })
 
 .factory('ratings', function($http, User) {
-	var RatingService = {
+	var ratingService = {
 		getNextPhoto: function(cb) {
-			return $http.get(url('rating'))
+			return $http.get(url('/rating'))
 			.success(function(data) {
 				cb(null, data);
 			}).error(function(err) {
@@ -115,7 +115,9 @@ angular.module('starter.services', [])
 				value:  value
 			};
 
-			$http.post(url('rating'), rating)
+			alert('felix check this out: ' + url('/rating'));
+
+			$http.post(url('/rating'), rating)
 				.success(function(data) {
 					cb(null, data);
 				})

@@ -4,49 +4,34 @@ angular.module('starter.controllers', ['ngCordova'])
 	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-	// Form data for the login modal
-//	$scope.loginData = {};
-//
-//	// Create the login modal that we will use later
-//	$ionicModal.fromTemplateUrl('templates/login.html', {
-//		scope: $scope
-//	}).then(function(modal) {
-//		$scope.modal = modal;
-//	});
-//
-//	// Triggered in the login modal to close it
-//	$scope.closeLogin = function() {
-//		$scope.modal.hide();
-//	};
-//
-//	// Open the login modal
-//	$scope.login = function() {
-//		$scope.modal.show();
-//	};
-//
-//	// Perform the login action when the user submits the login form
-//	$scope.doLogin = function() {
-//		console.log('Doing login', $scope.loginData);
-//
-//		// Simulate a login delay. Remove this and replace with your login
-//		// code if using a login system
-//		$timeout(function() {
-//			$scope.closeLogin();
-//		}, 1000);
-//	};
-})
+.controller('SigninCtrl', ['$scope', '$http', function($scope, $http){
+
+}])
 
 .controller('RatingCtrl', ['$scope', 'ratings', function($scope, ratings) {
-//	$scope.photoURL = function(){
-//		return ratings.photo;
-//	};
-//	$scope.upvote = function(){
-//		ratings.upvote();
-//	};
-//	$scope.downvote = function(){
-//		ratings.downvote();
-//	};
+	$scope.photoURL = function(){
+		return ratings.photo;
+	};
+	$scope.upvote = function(){
+		ratings.vote(1, {id: "55699adaef8ada683e18e9c5"}}, function(err, data){
+			if (err){
+				console.log('felix help: ' + err);
+			}
+			else {
+				console.log('the data: ' + JSON.stringify(data));
+			}
+		});
+	};
+	$scope.downvote = function(){
+		ratings.vote(-1, {id: "55699adaef8ada683e18e9c5"}, function(err, data){
+			if (err){
+				console.log('felix help down: ' + err);
+			}
+			else {
+				console.log('the data down: ' + JSON.stringify(data));
+			}
+		});
+	};
 }])
 
 .controller('PhotoCtrl'/*, ['$scope', '$cordovaCamera', 'photos'*/, function($scope, $cordovaCamera) {
@@ -150,9 +135,7 @@ angular.module('starter.controllers', ['ngCordova'])
 //	$scope.savePhoto = function(){
 //
 //	};
-}
-	//					]
-					 )
+} )
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 });

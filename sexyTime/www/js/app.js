@@ -20,14 +20,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider
-
-	.state('app', {
-		url: "/app",
-		abstract: true,
-		templateUrl: "templates/menu.html",
-		controller: 'AppCtrl'
-	})
-
 	.state('app.upload', {
 		url: "/upload",
 		views: {
