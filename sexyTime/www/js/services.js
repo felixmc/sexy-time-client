@@ -8,10 +8,10 @@ angular.module('starter.services', [])
 
 .factory('Camera', function cameraFactory($q, $cordovaCamera) {
 	var options = {
-		quality : 75,
-		destinationType : Camera.DestinationType.DATA_URL,
-		sourceType : Camera.PictureSourceType.CAMERA,
-		allowEdit : true,
+		quality: 75,
+		destinationType: Camera.DestinationType.DATA_URL,
+		sourceType: Camera.PictureSourceType.CAMERA,
+		allowEdit: true,
 		encodingType: Camera.EncodingType.JPEG,
 		targetWidth: 700,
 		targetHeight: 700,
