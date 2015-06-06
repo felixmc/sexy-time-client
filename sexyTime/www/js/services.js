@@ -38,16 +38,7 @@ angular.module('starter.services', [])
 		},
 
 		hasRemoteAccount: function hasAccount() {
-			var q = $q.defer();
-
-			$http.get(url('auth/status'))
-				.success(function(auth) {
-					q.resolve(auth.status);
-				}).error(function(err) {
-					q.reject(err);
-				});
-
-			return q.promise;
+			return $http.get(url('auth/status'));
 		},
 
 		getLocalAccount: function getLocalAccount() {
@@ -55,16 +46,7 @@ angular.module('starter.services', [])
 		},
 
 		getRemoteAccount: function getFullAccount() {
-			var q = $q.defer();
-
-			$http.get(url('auth/me'))
-				.success(function(user) {
-					q.resolve(user);
-				}).error(function(err) {
-					q.reject(err);
-				});
-
-			return q.promise
+			return $http.get(url('auth/me'));
 		},
 
 		createAccount: function createAccount() {
@@ -83,18 +65,8 @@ angular.module('starter.services', [])
 		},
 
 		login: function login() {
-			var q = $q.defer();
-
 			var user = AuthService.getLocalAccount();
-			$http.post(url('auth/me'), { userId: user.id, secret: user.secret })
-				.success(function(auth) {
-					q.resolve(auth);
-				})
-				.error(function(err) {
-					q.reject(err);
-				});
-
-			return q.promise;
+			return $http.post(url('auth/me'), { userId: user.id, secret: user.secret });
 		}
 	};
 
@@ -118,31 +90,11 @@ angular.module('starter.services', [])
 		},
 
 		read: function readPhoto(photoId) {
-			var q = $q.defer();
-
-			$http.get(url('photo/' + photoId))
-				.success(function(photo) {
-					q.resolve(photo);
-				})
-				.error(function(err) {
-					q.reject(err);
-				});
-
-			return q.promise;
+			return $http.get(url('photo/' + photoId));
 		},
 
 		update: function updatePhoto(photo) {
-			var q = $q.defer();
-
-			$http.put(url('photo/' + photo.id))
-				.success(function(uPhoto) {
-					q.resolve(uPhoto);
-				})
-				.error(function(err) {
-					q.reject(err);
-				});
-
-			return q.promise;
+			return $http.put(url('photo/' + photo.id));
 		}
 	};
 
@@ -152,37 +104,17 @@ angular.module('starter.services', [])
 .factory('Rating', function($http, User) {
 	var RatingService = {
 		getNextPhoto: function() {
-			var q = $q.defer();
-
-			$http.get(url('rating'))
-				.success(function(data) {
-					q.resolve(data);
-				})
-				.error(function(err) {
-					q.reject(err);
-			});
-
-			return q.promise;
+			return $http.get(url('rating'));
 		},
 
 		vote: function(value, photo) {
-			var q = $q.defer();
-
 			var rating = {
 				photo:  photo.id,
 				author: User.getLocalAccount().id,
 				value:  value
 			};
 
-			$http.post(url('rating'), rating)
-				.success(function(data) {
-					q.resolve(data);
-				})
-				.error(function(err) {
-					q.reject(err);
-				});
-
-			return q.promise;
+			return $http.post(url('rating'), rating)
 		}
 
 	};
