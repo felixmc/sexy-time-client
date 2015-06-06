@@ -6,23 +6,22 @@ function url(segment) {
 
 angular.module('starter.services', [])
 
-.factory('Camera', function cameraFactory($q) {
+.factory('Camera', function cameraFactory($q, $cordovaCamera) {
+	var options = {
+		quality: 75,
+		destinationType: Camera.DestinationType.DATA_URL,
+		sourceType: Camera.PictureSourceType.CAMERA,
+		allowEdit: true,
+		encodingType: Camera.EncodingType.JPEG,
+		targetWidth: 700,
+		targetHeight: 700,
+		popoverOptions: CameraPopoverOptions,
+		saveToPhotoAlbum: false
+	};
+
 	var CameraService = {
 		getPicture: function() {
-			var q = $q.defer();
-
-			navigator.camera.getPicture(function(result) {
-				q.resolve(result);
-			}, function(err) {
-				q.reject(err);
-			}, {
-					quality:          75,
-					targetWidth:      320,
-					targetHeight:     320,
-					saveToPhotoAlbum: false
-				});
-
-			return q.promise;
+			return $cordovaCamera.getPicture(options);
 		}
 	};
 
