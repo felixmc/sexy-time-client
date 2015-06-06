@@ -52,7 +52,7 @@ angular.module('starter.services', [])
 		createAccount: function createAccount() {
 			var q = $q.defer();
 
-			$http.post(url('auth/me'), AuthService.getLocalAccount())
+			$http.post(url('auth/signup'), AuthService.getLocalAccount())
 				.success(function(me) {
 					localStorage.setItem(userKey, me);
 					q.resolve(me);
