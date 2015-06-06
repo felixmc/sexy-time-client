@@ -97,7 +97,7 @@ angular.module('starter.services', [])
 	return PhotoService;
 })
 
-.factory('ratings', function($http, User) {
+.factory('Rating', function($http, User) {
 	var RatingService = {
 		getNextPhoto: function(cb) {
 			return $http.get(url('rating'))
