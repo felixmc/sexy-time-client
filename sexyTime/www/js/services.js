@@ -6,28 +6,30 @@ function url(segment) {
 
 angular.module('starter.services', [])
 
-.factory('Camera', ['$q', function($q) {
+.factory('Camera', function cameraFactory($q) {
 	var CameraService = {
-		getPicture: function(options) {
+		getPicture: function() {
 			var q = $q.defer();
 
 			navigator.camera.getPicture(function(result) {
-
-				// Do any magic you need
-
 				q.resolve(result);
 			}, function(err) {
 				q.reject(err);
-			}, options);
+			}, {
+					quality:          75,
+					targetWidth:      320,
+					targetHeight:     320,
+					saveToPhotoAlbum: false
+				});
 
 			return q.promise;
 		}
 	};
 
 	return CameraService;
-}])
+})
 
-.factory('User', function authFactory() {
+.factory('User', function authFactory($q) {
 	var userKey = 'user';
 
 	var AuthService = {
@@ -35,10 +37,8 @@ angular.module('starter.services', [])
 			return !!AuthService.getLocalAccount();
 		},
 
-		hasRemoteAccount: function hasAccount(cb) {
-			$http.get(url('auth/status')).success(function(auth) {
-				cb(auth.status);
-			});
+		hasRemoteAccount: function hasAccount() {
+			return $http.get(url('auth/status'));
 		},
 
 		getLocalAccount: function getLocalAccount() {
@@ -46,69 +46,69 @@ angular.module('starter.services', [])
 		},
 
 		getRemoteAccount: function getFullAccount() {
-			$http.get(url('auth/me')).success(cb);
+			return $http.get(url('auth/me'));
 		},
 
 		createAccount: function createAccount() {
-			$http.post(url('auth/me'), AuthService.getLocalAccount()).success(function(me) {
-				localStorage.setItem(userKey, me);
-				cb(me);
-			});
+			var q = $q.defer();
+
+			$http.post(url('auth/me'), AuthService.getLocalAccount())
+				.success(function(me) {
+					localStorage.setItem(userKey, me);
+					q.resolve(me);
+				})
+				.error(function(err) {
+					q.reject(err);
+				});
+
+			return q.promise;
 		},
 
-		login: function login(cb) {
+		login: function login() {
 			var user = AuthService.getLocalAccount();
-			$http.post(url('auth/me'), { userId: user.id, secret: user.secret }).success(function(auth) {
-				cb(auth);
-			});
+			return $http.post(url('auth/me'), { userId: user.id, secret: user.secret });
 		}
 	};
 
 	return AuthService;
 })
 
-.factory('Photo', function photoFactory($http) {
+.factory('Photo', function photoFactory($http, $q) {
 	var PhotoService = {
-		create: function createPhoto(photo, cb) {
-			$http.post(url('/photo'), photo).success(function(data) {
-				cb(null, data);
-			}).error(function(err) {
-				cb(err);
-			});
+		create: function createPhoto(photo) {
+			var q = $q.defer();
+
+			$http.post(url('/photo'), photo)
+				.success(function(data) {
+					q.resolve(data);
+				})
+				.error(function(err) {
+					q.reject(err);
+				});
+
+			return q.promise;
 		},
 
-		read: function readPhoto(photoId, cb) {
-			$http.get(url('photo/' + photoId)).success(function(photo) {
-				cb(null, photo);
-			}).error(function(err) {
-				cb(err);
-			});
+		read: function readPhoto(photoId) {
+			return $http.get(url('photo/' + photoId));
 		},
 
-		update: function updatePhoto(photo, cb) {
-			$http.put(url('photo/' + photo.id)).success(function(uPhoto) {
-				cb(null, uPhoto);
-			}).error(function(err) {
-				cb(err);
-			});
+		update: function updatePhoto(photo) {
+			return $http.put(url('photo/' + photo.id));
 		}
 	};
 
 	return PhotoService;
 })
 
-.factory('ratings', function($http, User) {
-	var ratingService = {
-		getNextPhoto: function(cb) {
-			return $http.get(url('/rating'))
-			.success(function(data) {
-				cb(null, data);
-			}).error(function(err) {
-				cb(err, data);
-			});
+
+.factory('Rating', function($http, User) {
+	var RatingService = {
+		getNextPhoto: function() {
+			return $http.get(url('rating'));
 		},
 
-		vote: function(value, photo, cb) {
+		vote: function(value, photo) {
 			var rating = {
 				photo:  photo.id,
 				author: User.getLocalAccount().id,
@@ -117,13 +117,7 @@ angular.module('starter.services', [])
 
 			alert('felix check this out: ' + url('/rating'));
 
-			$http.post(url('/rating'), rating)
-				.success(function(data) {
-					cb(null, data);
-				})
-				.error(function(err) {
-					cb(err, null);
-			});
+			return $http.post(url('rating'), rating);
 		}
 
 	};

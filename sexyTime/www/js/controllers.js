@@ -74,12 +74,7 @@ angular.module('starter.controllers', ['ngCordova'])
 //
 //	$scope.takePicture = function() {
 //
-//		$cordovaCamera.getPicture({
-//					quality: 75,
-//					targetWidth: 320,
-//					targetHeight: 320,
-//					saveToPhotoAlbum: false
-//				}).then(function(imageURI) {
+//		$cordovaCamera.getPicture().then(function(imageURI) {
 //					console.log(imageURI);
 //					$scope.lastPhoto = imageURI;
 //				}, function(err) {
