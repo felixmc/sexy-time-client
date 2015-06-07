@@ -54,12 +54,12 @@ angular.module('sexyTime', ['ionic', 'sexyTime.controllers', 'sexyTime.services'
 
 	.state('app.profile', {
 		url: '/profile',
-		templateUrl: 'rate.html'
+		templateUrl: 'profile.html'
 	})
 
 	.state('app.settings', {
 		url: '/settings',
-		templateUrl: 'rate.html'
+		templateUrl: 'settings.html'
 	})
 
 
