@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova'])
+angular.module('sexyTime.controllers', ['ngCordova'])
 
 .config(function($compileProvider){
 	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
@@ -13,7 +13,7 @@ angular.module('starter.controllers', ['ngCordova'])
 }])
 
 .controller('RatingCtrl', ['$scope', '$state', 'Rating', function($scope, $state, Rating) {
-	//alert('shes a bad mamma jamma');
+
 	//$state.go('app.rating');
 
 	$scope.photoURL = function(){

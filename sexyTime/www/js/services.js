@@ -4,7 +4,7 @@ function url(segment) {
 	return BASE_URL + segment;
 }
 
-angular.module('starter.services', [])
+angular.module('sexyTime.services', [])
 
 .factory('Camera', function cameraFactory($q, $cordovaCamera) {
 	var options = {
