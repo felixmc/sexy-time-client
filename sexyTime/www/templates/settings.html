@@ -1,0 +1,23 @@
+<p>Select your gender:</p>
+<label ng-repeat="gender in genders">
+	<input type="radio" ng-model="user.gender" value="{{gender[0]}}">
+	{{gender}}
+</label>
+
+<p>Select the genders you'd like to rate:</p>
+<label ng-repeat="gender in genders">
+	<input
+		type="checkbox"
+		name="user.gender_preference[]"
+		value="{{gender[0]}}"
+		ng-checked="selection.indexOf(gender[0]) > -1"
+		ng-click="genderPreferenceSelected(gender[0])"
+	> {{gender}}
+</label>
+
+<!--<p>{{user}}</p>-->
+
+<div ng-show="user.gender && user.gender_preference.length">
+	<p><a class="action-button" href ng-click="save()">save</a></p>
+</div>
+<p><a href ui-sref="main">back</a></p>

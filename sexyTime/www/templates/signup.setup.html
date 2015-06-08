@@ -1,6 +1,4 @@
 
-user.gender_preference
-
 <p>Select your gender:</p>
 <label ng-repeat="gender in genders">
 	<input type="radio" ng-model="user.gender" value="{{gender[0]}}">
@@ -18,7 +16,8 @@ user.gender_preference
 	> {{gender}}
 </label>
 
-<p>{{user}}</p>
+<!--<p>{{user}}</p>-->
 
-
-
+<div ng-show="user.gender && user.gender_preference.length">
+	<a class="action-button" href ng-click="signup()">Continue</a>
+</div>

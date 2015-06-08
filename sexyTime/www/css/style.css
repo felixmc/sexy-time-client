@@ -1,9 +1,14 @@
 /* Empty. Add your own CSS if you like */
 
+html, body {
+	height: 100%;
+}
+
 body.home, body[class*='signup'] {
 	background-image: linear-gradient(-180deg, #EB1D4E 0%, #EB1717 100%);
 }
 
+/*
 [ui-view].ng-leave {
 	animation: fadeOut 0.5s;
 }
@@ -11,3 +16,4 @@ body.home, body[class*='signup'] {
 [ui-view].ng-enter {
 	animation: fadeIn 0.5s;
 }
+*/

@@ -20,7 +20,7 @@ angular.module('sexyTime.services', [])
 	};
 
 	var CameraService = {
-		getPicture: function() {
+		takePhoto: function() {
 			return $cordovaCamera.getPicture(options);
 		}
 	};
@@ -28,7 +28,7 @@ angular.module('sexyTime.services', [])
 	return CameraService;
 })
 
-.factory('User', function userFactory($q) {
+.factory('User', ['$q', '$http', function userFactory($q, $http) {
 	var userKey = 'user';
 
 	var AuthService = {
@@ -36,28 +36,37 @@ angular.module('sexyTime.services', [])
 			return !!AuthService.getLocalAccount();
 		},
 
-		hasRemoteAccount: function hasAccount() {
-			return $http.get(url('auth/status'));
-		},
-
 		getLocalAccount: function getLocalAccount() {
-			return localStorage.getItem(userKey);
+			var user = localStorage.getItem(userKey);
+			console.log('localUser', user);
+			return user ? JSON.parse(user) : user;
 		},
 
-		getRemoteAccount: function getFullAccount() {
-			return $http.get(url('auth/me'));
+		saveLocalAccount: function saveLocalAccount(user) {
+			localStorage.setItem(userKey, JSON.stringify(user));
 		},
 
-		getRemoteStatus: function isLoggedIn() {
+		updateLocalAccount: function updateLocalAccount(update) {
+			var user = AuthService.getLocalAccount();
+			user.gender = update.gender || user.gender;
+			user.gender_preference = update.gender_preference || user.gender_preference;
+			AuthService.saveLocalAccount(user);
+		},
+
+		getRemoteStatus: function getRemoteStatus() {
 			return $http.get(url('auth'));
 		},
 
-		createAccount: function createAccount() {
+		getRemoteAccount: function getRemoteAccount() {
+			return $http.get(url('auth/me'));
+		},
+
+		createAccount: function createAccount(account) {
 			var q = $q.defer();
 
-			$http.post(url('auth/signup'), AuthService.getLocalAccount())
+			$http.post(url('auth/signup'), account)
 				.success(function(me) {
-					localStorage.setItem(userKey, me);
+					AuthService.saveLocalAccount(me);
 					q.resolve(me);
 				})
 				.error(function(err) {
@@ -67,14 +76,18 @@ angular.module('sexyTime.services', [])
 			return q.promise;
 		},
 
+		updateSettings: function() {
+			return $http.post(url('auth/update'), AuthService.getLocalAccount());
+		},
+
 		login: function login() {
 			var user = AuthService.getLocalAccount();
-			return $http.post(url('auth/me'), { userId: user.id, secret: user.secret });
+			return $http.post(url('auth/login'), { userId: user.id, secret: user.secret });
 		}
 	};
 
 	return AuthService;
-})
+}])
 
 .factory('Photo', function photoFactory($http, $q) {
 	var PhotoService = {

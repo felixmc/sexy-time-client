@@ -61,17 +61,20 @@ angular.module('sexyTime', ['ionic', 'sexyTime.directives', 'sexyTime.controller
 
 	.state('main', {
 		url: '/main',
-		templateUrl: 'templates/main.html'
+		templateUrl: 'templates/main.html',
+		controller: 'MainController'
 	})
 
 	.state('profile', {
 		url: '/profile',
-		templateUrl: 'templates/profile.html'
+		templateUrl: 'templates/profile.html',
+		controller: 'ProfileController'
 	})
 
 	.state('settings', {
 		url: '/settings',
-		templateUrl: 'templates/settings.html'
+		templateUrl: 'templates/settings.html',
+		controller: 'SettingsController'
 	})
 
 	// if none of the above states are matched, use this as the fallback
