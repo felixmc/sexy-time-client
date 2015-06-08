@@ -1,8 +1,8 @@
 // SexyTime App
 
-angular.module('sexyTime', ['ionic', 'sexyTime.controllers', 'sexyTime.services', 'ngCordova'])
+angular.module('sexyTime', ['ionic', 'sexyTime.directives', 'sexyTime.controllers', 'sexyTime.services', 'ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope) {
 	$ionicPlatform.ready(function() {
 		console.log('Ionic is ready');
 
@@ -16,71 +16,63 @@ angular.module('sexyTime', ['ionic', 'sexyTime.controllers', 'sexyTime.services'
 			StatusBar.styleDefault();
 		}
 	});
+
+	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+		$rootScope.containerClass = toState.name.replace(/\./g, '-');
+	});
+
 })
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$stateProvider
-	.state('app', {
+	.state('home', {
 		url: '/',
-		templateUrl: 'home.html',
+		templateUrl: 'templates/home.html',
 		controller: 'HomeController'
 	})
 
-	.state('app.error', {
+	.state('error', {
 		url: '/error/:error',
-		templateUrl: 'error.html',
+		templateUrl: 'templates/error.html',
 		controller: 'ErrorController'
 	})
 
-	.state('app.signup', {
+	.state('signup', {
 		url: '/signup',
 		abstract: true,
-		templateUrl: 'signup.html'
+		templateUrl: 'templates/signup.html'
 	})
 
-	.state('app.signup.welcome', {
+	.state('signup.welcome', {
 		url: '',
-		templateUrl: 'signup.welcome.html'
+		templateUrl: 'templates/signup.welcome.html'
 	})
 
-	.state('app.signup.verify', {
+	.state('signup.verify', {
 		url: '/verify',
-		templateUrl: 'signup.verify.html'
+		templateUrl: 'templates/signup.verify.html'
 	})
 
-	.state('app.signup.setup', {
+	.state('signup.setup', {
 		url: '/setup',
-		templateUrl: 'signup.setup.html'
+		templateUrl: 'templates/signup.setup.html',
+		controller: 'SignupController'
 	})
 
-	.state('app.main', {
+	.state('main', {
 		url: '/main',
-		templateUrl: 'main.html'
+		templateUrl: 'templates/main.html'
 	})
 
-	.state('app.profile', {
+	.state('profile', {
 		url: '/profile',
-		templateUrl: 'profile.html'
+		templateUrl: 'templates/profile.html'
 	})
 
-	.state('app.settings', {
+	.state('settings', {
 		url: '/settings',
-		templateUrl: 'settings.html'
+		templateUrl: 'templates/settings.html'
 	})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/');

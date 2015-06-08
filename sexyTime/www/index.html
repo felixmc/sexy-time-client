@@ -3,8 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<title></title>
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+		<title>SexyTime</title>
 		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
 
@@ -22,13 +21,16 @@
 
 		<!-- your app's js -->
 		<script src="js/app.js"></script>
+		<script src="js/directives.js"></script>
 		<script src="js/services.js"></script>
 		<script src="js/controllers.js"></script>
 	</head>
-	<body ng-app="sexyTime">
+	<body ng-app="sexyTime" class="{{containerClass}}">
 
 		<!-- MAIN CONTENT -->
 		<div class="container">
+
+<!--			<p>TESTING AND SHIIIT</p>-->
 
 				<!-- APPLICATION CONTENT GOES HERE -->
 				<div ui-view></div>
