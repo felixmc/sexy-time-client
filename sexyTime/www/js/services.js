@@ -28,7 +28,7 @@ angular.module('sexyTime.services', [])
 	return CameraService;
 })
 
-.factory('User', function authFactory($q) {
+.factory('User', function userFactory($q) {
 	var userKey = 'user';
 
 	var AuthService = {
@@ -46,6 +46,10 @@ angular.module('sexyTime.services', [])
 
 		getRemoteAccount: function getFullAccount() {
 			return $http.get(url('auth/me'));
+		},
+
+		getRemoteStatus: function isLoggedIn() {
+			return $http.get(url('auth'));
 		},
 
 		createAccount: function createAccount() {

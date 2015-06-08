@@ -18,12 +18,18 @@ angular.module('sexyTime', ['ionic', 'sexyTime.controllers', 'sexyTime.services'
 	});
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$stateProvider
-
 	.state('app', {
 		url: '/',
-		templateUrl: 'home.html'
+		templateUrl: 'home.html',
+		controller: 'HomeController'
+	})
+
+	.state('app.error', {
+		url: '/error/:error',
+		templateUrl: 'error.html',
+		controller: 'ErrorController'
 	})
 
 	.state('app.signup', {
@@ -78,4 +84,4 @@ angular.module('sexyTime', ['ionic', 'sexyTime.controllers', 'sexyTime.services'
 
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/');
-});
+}]);
