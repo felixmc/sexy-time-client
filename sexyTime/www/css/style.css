@@ -17,6 +17,23 @@ body.home, body[class*='signup'] {
 	width: 100%;
 }
 
+.vote-overlay {
+	width: 100%;
+	position: absolute;
+	height: 50px;
+	opacity: .7;
+}
+
+.overlay-up {
+	background: pink;
+	bottom: 0;
+}
+
+.overlay-down {
+	background: gray;
+	top: 0;
+}
+
 /*
 [ui-view].ng-leave {
 	animation: fadeOut 0.5s;

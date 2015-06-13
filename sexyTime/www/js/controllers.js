@@ -111,7 +111,7 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 
 }])
 
-.controller('MainController', ['$scope', '$state', 'User', 'Photo', 'Rating', 'Camera', function($scope, $state, User, Photo, Rating, Camera) {
+.controller('MainController', ['$scope', '$state', '$ionicGesture', '$window', 'User', 'Photo', 'Rating', 'Camera', function($scope, $state, $ionicGesture, $window, User, Photo, Rating, Camera) {
 
 	function loadNextImage() {
 		Photo.getNext()
@@ -127,21 +127,24 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 			});
 	}
 
-	$scope.goToProfile = function() {
-		$state.go('profile');
+	$ionicGesture.on('swipedown', function(event) {
+		console.log('event: ', event);
+	}, angular.element(document.querySelector('.imageRatingWrapper')));
+
+	$ionicGesture.on('swipeup', function(event) {
+																																																									 console.log('event: ', event);
+	}, angular.element(document.querySelector('.imageRatingWrapper')));
+
+	$scope.goToProfi            le = function() {
+		$state.go('prof                                                                                                                                                                            ile');
 	};
 
 	$scope.vote = function(weight) {
 		console.log('vpted! ', weight);
 		if ($scope.imageToRate.placeholder) return;
 		Rating.vote(weight, $scope.imageToRate)
-			.then(function(data) {
-				Photo.create({ url: imageData })
-					.success(function(photo) {
-						loadNextImage();
-					})
-					.catch(function(err) { handleError($state, err); });
-				$state.go('main');
+			.success(function(data) {
+				loadNextImage();
 			})
 			.catch(function(err) { handleError($state, err); });
 	}
