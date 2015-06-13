@@ -74,30 +74,93 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 			$scope.user =	User.getLocalAccount();
 		});
 
+	$scope.goToHome = function() {
+		$state.go('main');
+	};
+
 }])
 
 .controller('SettingsController', ['$scope', '$state', 'User', function($scope, $state, User) {
 	$scope.genders = ['male', 'female'];
 	$scope.user = User.getLocalAccount();
 
+	console.log($scope.user);
+
+	$scope.genderPreferenceSelected = function (gender) {
+		var idx = $scope.user.gender_preference.indexOf(gender);
+
+		// is currently selected
+		if (idx > -1) {
+			$scope.user.gender_preference.splice(idx, 1);
+		}
+
+		// is newly selected
+		else {
+			$scope.user.gender_preference.push(gender);
+		}
+	};
+
 	$scope.save = function() {
 		User.updateLocalAccount($scope.user);
-		User.updateRemoteAccount();
+		User.updateSettings();
+	};
+
+	$scope.goToHome = function() {
+		$state.go('main');
 	};
 
 }])
 
-.controller('MainController', ['$scope', '$state', 'User', 'Photo', 'Camera', function($scope, $state, User, Photo, Camera) {
+.controller('MainController', ['$scope', '$state', 'User', 'Photo', 'Rating', 'Camera', function($scope, $state, User, Photo, Rating, Camera) {
 
+	function loadNextImage() {
+		Photo.getNext()
+			.success(function(photo) {
+				$scope.imageToRate = photo;
+			})
+			.catch(function(err) {
+				if (err.status === 404) {
+					$scope.imageToRate = { url: 'http://dulieu.phim.pw/images/hinh404.png', placeholder: true };
+				} else {
+					handleError($state, err);
+				}
+			});
+	}
+
+	$scope.goToProfile = function() {
+		$state.go('profile');
+	};
+
+	$scope.vote = function(weight) {
+		console.log('vpted! ', weight);
+		if ($scope.imageToRate.placeholder) return;
+		Rating.vote(weight, $scope.imageToRate)
+			.then(function(data) {
+				Photo.create({ url: imageData })
+					.success(function(photo) {
+						loadNextImage();
+					})
+					.catch(function(err) { handleError($state, err); });
+				$state.go('main');
+			})
+			.catch(function(err) { handleError($state, err); });
+	}
+
+	// handle picture taking
 	$scope.takePhoto = function() {
 		Camera.takePhoto()
 			.then(function(data) {
 				Photo.create({ url: data })
 					.success(function(photo) { console.log(photo); })
 					.catch(function(err) { handleError($state, err); });
+				$state.go('main');
 			})
 			.catch(function(err) { handleError($state, err); });
 	};
+
+	$scope.$on('$viewContentLoaded', function() {
+		loadNextImage();
+	});
 
 }])
 

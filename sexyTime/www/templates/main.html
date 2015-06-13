@@ -1,15 +1,18 @@
-<p>MAIN BYATCH!!</p>
-<ul>
-	<li><a href ui-sref="^.setup">rate up</a></li>
-	<li><a href ui-sref="^.setup">rate down</a></li>
 
-	<br />
+<div class="imageRatingWrapper" style="background-image: url({{imageToRate.url}});" on-swipe-up="vote(1)" on-swipe-down="vote(-1)" on-swipe-right="goToProfile()">
 
-	<li><a href ng-click="takePhoto()">take photo</a>
+	<ul>
+<!--
+		<div ng-hide="imageToRate.placeholder">
+			<li><a href ng-click="vote(1)">rate up</a></li>
+			<li><a href ng-click="vote(-1)">rate down</a></li>
+		</div>
+-->
 
-	<br />
+		<li><a href ng-click="takePhoto()">take photo</a>
 
-	<li><a href ui-sref="profile">profile</a></li>
-	<li><a href ui-sref="settings">settings</a></li>
+		<li><a href ui-sref="settings">settings</a></li>
 
-</ul>
+	</ul>
+
+</div>

@@ -1,3 +1,5 @@
+'use strict';
+
 var BASE_URL = 'http://sexytime.felixmilea.com/';
 
 function url(segment) {
@@ -92,17 +94,11 @@ angular.module('sexyTime.services', [])
 .factory('Photo', function photoFactory($http, $q) {
 	var PhotoService = {
 		create: function createPhoto(photo) {
-			var q = $q.defer();
+			return $http.post(url('main/upload'), photo);
+		},
 
-			$http.post(url('/photo'), photo)
-				.success(function(data) {
-					q.resolve(data);
-				})
-				.error(function(err) {
-					q.reject(err);
-				});
-
-			return q.promise;
+		getNext: function() {
+			return $http.get(url('main/rate'));
 		},
 
 		read: function readPhoto(photoId) {
@@ -120,20 +116,14 @@ angular.module('sexyTime.services', [])
 
 .factory('Rating', function($http, User) {
 	var RatingService = {
-		getNextPhoto: function() {
-			return $http.get(url('rating'));
-		},
 
-		vote: function(value, photo) {
+		vote: function(weight, photo) {
 			var rating = {
 				photo:  photo.id,
-				author: User.getLocalAccount().id,
-				value:  value
+				weight: weight
 			};
 
-			alert('felix check this out: ' + url('/rating'));
-
-			return $http.post(url('rating'), rating);
+			return $http.post(url('main/rate'), rating);
 		}
 
 	};

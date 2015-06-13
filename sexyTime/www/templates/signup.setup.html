@@ -11,7 +11,7 @@
 		type="checkbox"
 		name="user.gender_preference[]"
 		value="{{gender[0]}}"
-		ng-checked="selection.indexOf(gender[0]) > -1"
+		ng-checked="user.gender_preference.indexOf(gender[0]) > -1"
 		ng-click="genderPreferenceSelected(gender[0])"
 	> {{gender}}
 </label>
