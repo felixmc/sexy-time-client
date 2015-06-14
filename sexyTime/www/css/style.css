@@ -15,13 +15,14 @@ body.home, body[class*='signup'] {
 	height: 100%;
 	position: fixed;
 	width: 100%;
+	transition: background-image .5s;
 }
 
 .vote-overlay {
 	width: 100%;
 	position: absolute;
-	height: 50px;
-	opacity: .7;
+	opacity: 0;
+	height: 0;
 }
 
 .overlay-up {
@@ -32,6 +33,16 @@ body.home, body[class*='signup'] {
 .overlay-down {
 	background: gray;
 	top: 0;
+}
+
+.vote-overlay.on {
+	height: 100%;
+	opacity: .7;
+	transition: height .5s, opacity .5s;
+}
+
+.vote-overlay.on.fadeOut {
+	opacity: 0;
 }
 
 /*

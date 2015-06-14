@@ -1,21 +1,6 @@
+<div class="imageRatingWrapper" style="background-image: url({{imageToRate.url}});" on-swipe-up="vote(1)" on-swipe-down="vote(-1)" on-swipe-right="goToProfile()" on-swipe-left="takePhoto()">
 
-<div class="imageRatingWrapper" style="background-image: url({{imageToRate.url}});" on-swipe-up="vote(1)" on-swipe-down="vote(-1)" on-swipe-right="goToProfile()">
-
-	<ul>
-<!--
-		<div ng-hide="imageToRate.placeholder">
-			<li><a href ng-click="vote(1)">rate up</a></li>
-			<li><a href ng-click="vote(-1)">rate down</a></li>
-		</div>
--->
-
-		<li><a href ng-click="takePhoto()">take photo</a>
-
-		<li><a href ui-sref="settings">settings</a></li>
-
-	</ul>
 
 	<div class="vote-overlay overlay-up"></div>
 	<div class="vote-overlay overlay-down"></div>
-
 </div>

@@ -127,20 +127,40 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 			});
 	}
 
-	$ionicGesture.on('swipedown', function(event) {
-		console.log('event: ', event);
-	}, angular.element(document.querySelector('.imageRatingWrapper')));
+	var wrapper = angular.element(document.querySelector('.imageRatingWrapper'));
 
-	$ionicGesture.on('swipeup', function(event) {
-																																																									 console.log('event: ', event);
-	}, angular.element(document.querySelector('.imageRatingWrapper')));
+	function handleSwipe(event) {
+		if ($scope.imageToRate.placeholder) return;
 
-	$scope.goToProfi            le = function() {
-		$state.go('prof                                                                                                                                                                            ile');
+		console.log(event);
+
+		angular.element(document.querySelectorAll('.vote-overlay')).removeClass('on');
+
+		var overlay = angular.element(document.querySelector('.overlay-' + event.gesture.direction));
+
+		overlay.addClass('on');
+
+		setTimeout(function() {
+			overlay.addClass('fadeOut');
+
+			setTimeout(function() {
+				overlay.removeClass('on').removeClass('fadeOut');
+			}, 500);
+
+		}, 700);
+
+	}
+
+
+	$ionicGesture.on('swipedown', handleSwipe, wrapper);
+	$ionicGesture.on('swipeup', handleSwipe, wrapper);
+
+
+	$scope.goToProfile = function() {
+		$state.go('profile');
 	};
 
 	$scope.vote = function(weight) {
-		console.log('vpted! ', weight);
 		if ($scope.imageToRate.placeholder) return;
 		Rating.vote(weight, $scope.imageToRate)
 			.success(function(data) {
