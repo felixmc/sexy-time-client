@@ -4,11 +4,15 @@ html, body {
 	height: 100%;
 }
 
+body {
+	transition: background 1s;
+}
+
 body.home, body[class*='signup'] {
 	background-image: linear-gradient(-180deg, #EB1D4E 0%, #EB1717 100%);
 }
 
-.container {
+body.home .container, body[class*='signup'] .container {
 	min-height: 50%;
 	margin: 20% 15%;
 }
@@ -30,9 +34,10 @@ body[class*='signup'] .container a.action-button {
 	vertical-align: middle;
 	text-align: center;
 	font-weight: bold;
+	transition: all linear 0.5s, background 0.2s, color 0.2s;
 }
 
-body[class*='signup'] .container a.action-button:active, body[class*='signup'] .container a.action-button:hover {
+body[class*='signup'] .container a.action-button.activated {
 	background: #F1F2F3;
 	color: #EB1D4E;
 }
@@ -67,6 +72,8 @@ body[class*='signup'] .container .signup-form .list p {
 body[class*='signup'] .container .signup-form .action-button {
 	margin-top: 11.5em;
 	width: 100%;
+	z-index: 99;
+	position: relative;
 }
 
 body[class*='signup'] .container .signup-form .item-checkbox {
@@ -92,6 +99,7 @@ body[class*='signup'] .container .signup-form .item-checkbox {
 	background: url(../img/logo.png) no-repeat center top;
 	padding-top: 80px;
 	background-size: contain;
+	transition: all linear 0.5s
 }
 
 
@@ -114,8 +122,10 @@ body[class*='signup'] .container .signup-form .item-checkbox {
 	background-repeat: no-repeat;
 	background-size: cover;
 	height: 100%;
-	position: fixed;
+	position: absolute;
 	width: 100%;
+	top: 0;
+	left: 0;
 	transition: background-image .5s;
 }
 
@@ -149,14 +159,26 @@ body[class*='signup'] .container .signup-form .item-checkbox {
 
 
 
+.animate-show {
+	opacity: 1;
+}
 
+.animate-show.ng-hide-add.ng-hide-add-active,
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+	transition: all linear 0.5s;
+}
+
+.animate-show.ng-hide {
+	opacity: 0;
+}
 
 [ui-view].ng-enter, [ui-view].ng-leave {
+/*
 	position: absolute;
 	left: 0;
 	right: 0;
-	-webkit-transition:all .5s ease-in-out;
-	transition:all .5s ease-in-out;
+*/
+	transition: all .5s ease-in-out;
 }
 
 [ui-view].ng-enter {

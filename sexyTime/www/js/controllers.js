@@ -62,6 +62,7 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 	};
 
 	$scope.signup = function() {
+		console.log('creating account?');
 		User.createAccount($scope.user)
 			.then(function(me) {
 				$state.go('main');
