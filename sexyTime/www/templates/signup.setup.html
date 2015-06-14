@@ -1,28 +1,35 @@
-<ion-view view-title="Welcome">
-	<ion-content class="padding">
-
-		<p>Select your gender:</p>
-		<label ng-repeat="gender in genders">
-			<input type="radio" ng-model="user.gender" value="{{gender[0]}}">
-			{{gender}}
-		</label>
-
-		<p>Select the genders you'd like to rate:</p>
-		<label ng-repeat="gender in genders">
-			<input
-				type="checkbox"
-				name="user.gender_preference[]"
-				value="{{gender[0]}}"
-				ng-checked="user.gender_preference.indexOf(gender[0]) > -1"
-				ng-click="genderPreferenceSelected(gender[0])"
-			> {{gender}}
-		</label>
-
-		<!--<p>{{user}}</p>-->
-
-		<div ng-show="user.gender && user.gender_preference.length">
-			<a class="action-button" href ng-click="signup()">Continue</a>
+<ion-view class="signup-form">
+	<ion-content>
+		<div class="list">
+			<label class="item item-input item-select">
+				<div class="input-label">
+					I am a
+				</div>
+				<select ng-model="user.gender">
+					<option value="m">Male</option>
+					<option value="f">Female</option>
+				</select>
+			</label>
 		</div>
 
+		<ul class="list">
+			<p>Gender preference:</p>
+			<li class="item item-checkbox" ng-repeat="gender in genders">
+				<label class="checkbox">
+					<input
+						type="checkbox"
+						name="user.gender_preference[]"
+						value="{{gender[0]}}"
+						ng-checked="user.gender_preference.indexOf(gender[0]) > -1"
+						ng-click="genderPreferenceSelected(gender[0])"
+					>
+				</label>
+				{{gender}}
+			</li>
+		</ul>
 	</ion-content>
+
+	<div ng-show="user.gender && user.gender_preference.length">
+		<a class="action-button" href ng-click="signup()">Continue</a>
+	</div>
 </ion-view>
