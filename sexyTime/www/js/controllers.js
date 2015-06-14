@@ -20,7 +20,14 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 						.success(function(me) {
 							$state.go('main');
 						})
-						.catch($state, handleError);
+						.catch(function(err) {
+							if (err.status === 403) {
+								User.deleteLocalAccount();
+								$state.go('signup.welcome');
+							} else {
+								handleError($state, err);
+							}
+						});
 				}
 			})
 			.catch(function(err) { handleError($state, err); });
@@ -132,8 +139,6 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 	function handleSwipe(event) {
 		if ($scope.imageToRate.placeholder) return;
 
-		console.log(event);
-
 		angular.element(document.querySelectorAll('.vote-overlay')).removeClass('on');
 
 		var overlay = angular.element(document.querySelector('.overlay-' + event.gesture.direction));
@@ -146,9 +151,7 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 			setTimeout(function() {
 				overlay.removeClass('on').removeClass('fadeOut');
 			}, 500);
-
 		}, 700);
-
 	}
 
 

@@ -40,7 +40,6 @@ angular.module('sexyTime.services', [])
 
 		getLocalAccount: function getLocalAccount() {
 			var user = localStorage.getItem(userKey);
-			console.log('localUser', user);
 			return user ? JSON.parse(user) : user;
 		},
 
@@ -53,6 +52,10 @@ angular.module('sexyTime.services', [])
 			user.gender = update.gender || user.gender;
 			user.gender_preference = update.gender_preference || user.gender_preference;
 			AuthService.saveLocalAccount(user);
+		},
+
+		deleteLocalAccount: function getLocalAccount() {
+			localStorage.removeItem(userKey);
 		},
 
 		getRemoteStatus: function getRemoteStatus() {
