@@ -100,8 +100,8 @@ angular.module('sexyTime.services', [])
 			return $http.post(url('main/upload'), photo);
 		},
 
-		getNext: function() {
-			return $http.get(url('main/rate'));
+		getNext: function(nth) {
+			return $http.get(url('main/rate?skip='+nth));
 		},
 
 		read: function readPhoto(photoId) {

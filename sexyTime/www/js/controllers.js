@@ -119,46 +119,66 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 
 }])
 
-.controller('MainController', ['$scope', '$state', '$ionicGesture', '$window', 'User', 'Photo', 'Rating', 'Camera', function($scope, $state, $ionicGesture, $window, User, Photo, Rating, Camera) {
+.controller('MainController', ['$scope', '$state', '$ionicGesture', '$window', '$q', 'User', 'Photo', 'Rating', 'Camera', function($scope, $state, $ionicGesture, $window, $q, User, Photo, Rating, Camera) {
 
-	function loadNextImage() {
-		Photo.getNext()
+	function loadNextImage(cb, nth) {
+		Photo.getNext(nth || 0)
 			.success(function(photo) {
-				$scope.imageToRate = photo;
+				$scope.bufferImage = photo;
+
+				console.log('loaded new image: ', photo.id);
+
+				if (cb) {
+					cb(photo);
+				}
 			})
 			.catch(function(err) {
 				if (err.status === 404) {
-					$scope.imageToRate = { url: 'http://dulieu.phim.pw/images/hinh404.png', placeholder: true };
+					var photo = { url: 'http://dulieu.phim.pw/images/hinh404.png', placeholder: true };
+					$scope.bufferImage = photo;
+
+					if (cb) {
+						cb(photo);
+					}
 				} else {
 					handleError($state, err);
 				}
 			});
 	}
 
+	function transitionImage() {
+		$scope.imageToRate = $scope.bufferImage;
+		console.log('displaying image: ', $scope.imageToRate.id);
+		loadNextImage(undefined, 1);
+	}
+
 	var wrapper = angular.element(document.querySelector('.imageRatingWrapper'));
 
 	function handleSwipe(event) {
-		if ($scope.imageToRate.placeholder) return;
-
-		angular.element(document.querySelectorAll('.vote-overlay')).removeClass('on');
+		if (!$scope.imageToRate || $scope.imageToRate.placeholder) return;
 
 		var overlay = angular.element(document.querySelector('.overlay-' + event.gesture.direction));
 
+		angular.element(document.querySelectorAll('.vote-overlay')).removeClass('on');
+
+		wrapper.addClass('transition');
 		overlay.addClass('on');
 
+		setTimeout(transitionImage, 500);
+
 		setTimeout(function() {
+			transitionImage();
 			overlay.addClass('fadeOut');
 
 			setTimeout(function() {
 				overlay.removeClass('on').removeClass('fadeOut');
+				wrapper.removeClass('transition');
 			}, 500);
 		}, 700);
 	}
 
-
 	$ionicGesture.on('swipedown', handleSwipe, wrapper);
 	$ionicGesture.on('swipeup', handleSwipe, wrapper);
-
 
 	$scope.goToProfile = function() {
 		$state.go('profile');
@@ -168,7 +188,7 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 		if ($scope.imageToRate.placeholder) return;
 		Rating.vote(weight, $scope.imageToRate)
 			.success(function(data) {
-				loadNextImage();
+
 			})
 			.catch(function(err) { handleError($state, err); });
 	}
@@ -186,7 +206,9 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 	};
 
 	$scope.$on('$viewContentLoaded', function() {
-		loadNextImage();
+		loadNextImage(function() {
+			transitionImage();
+		});
 	});
 
 }])

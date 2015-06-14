@@ -6,10 +6,11 @@ html, body {
 
 body {
 	transition: background 1s;
+	background-image: linear-gradient(-180deg, #EB1D4E 0%, #EB1717 100%);
 }
 
 body.home, body[class*='signup'] {
-	background-image: linear-gradient(-180deg, #EB1D4E 0%, #EB1717 100%);
+
 }
 
 body.home .container, body[class*='signup'] .container {
@@ -126,8 +127,18 @@ body[class*='signup'] .container .signup-form .item-checkbox {
 	width: 100%;
 	top: 0;
 	left: 0;
-	transition: background-image .5s;
+	transition: background-image .5s, -webkit-filter 1s;
+/*	-webkit-filter: blur(0);*/
 }
+
+.imageRatingWrapper.transition {
+/*	-webkit-filter: blur(3px);*/
+}
+
+.bgBuffer {
+	opacity: 0;
+}
+
 
 .vote-overlay {
 	width: 100%;
@@ -137,12 +148,12 @@ body[class*='signup'] .container .signup-form .item-checkbox {
 }
 
 .overlay-up {
-	background: pink;
+	background: #EB1D4E;
 	bottom: 0;
 }
 
 .overlay-down {
-	background: gray;
+	background: #42454A;
 	top: 0;
 }
 
