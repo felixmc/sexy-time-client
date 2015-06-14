@@ -172,9 +172,9 @@ angular.module('sexyTime.controllers', ['ngCordova'])
 
 			setTimeout(function() {
 				overlay.removeClass('on').removeClass('fadeOut');
-				wrapper.removeClass('transition');
-			}, 500);
-		}, 700);
+//				wrapper.removeClass('transition');
+			}, 200);
+		}, 400);
 	}
 
 	$ionicGesture.on('swipedown', handleSwipe, wrapper);
